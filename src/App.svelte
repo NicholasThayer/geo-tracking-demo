@@ -10,8 +10,18 @@
 <script>
 	import LMap from './LMap.svelte'
 	import { appClock as aClock } from './config';
-	import { clock } from './util'
-	const appClock =  clock( aClock )
+	import { getClock } from './util'
+
+	const appClock =  getClock({
+		id,
+    tickInterval,
+    tickStep,
+    tickOffset,
+    tick,
+    ts,
+	} = aClock )
+
+
 	//import { map as lMap } from 'leaflet';
 	//let name = 'world';
 	//const mapEl = document.getElementById('mapid')

@@ -33,14 +33,20 @@ function clockTicker( clock ) {
 }
 
 
+
+function startClock( ticker ) {
+  setInterval( ticker, 0)
+}
+
+
 function getClockFn( id, tickInterval, tickStep, tickOffset, tick, ts ) {
   const clock = {
     id, tickInterval, tickStep, tickOffset, tick, ts,
     started: true,
   }
   const ticker = clockTicker( clock )
+
   setContext( id, clock);
-  setInterval( ticker, 0)
 
   return clock
   //mem( partial( getContext, [id] ))
