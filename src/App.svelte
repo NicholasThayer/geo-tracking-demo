@@ -8,26 +8,30 @@
 </svelte:head>
 
 <script>
+	import { makeAppClock } from './app'
 	import LMap from './LMap.svelte'
-	import { appClock as aClock } from './config';
-	import { getClock } from './util'
 
-	const appClock =  getClock({
-		id,
-    tickInterval,
-    tickStep,
-    tickOffset,
-    tick,
-    ts,
-	} = aClock )
+	const obj = {i:0}
 
+	$: console.log();
 
-	//import { map as lMap } from 'leaflet';
-	//let name = 'world';
-	//const mapEl = document.getElementById('mapid')
-	//console.log('mapid? ', mapEl );
-	//const mymap = l.map('mapid').setView([51.505, -0.09], 13);
-	//console.log(map);
-
+	//import { appClock as aClock } from './config';
+	//import { getClock } from './util'
+	//import {
+	//	applyTo,
+	//	values,
+	//	curry,
+	//	memoizeWith,
+	//	identity,
+	//} from 'ramda'
+	//
+	//const appClock = applyTo( values( aClock ), getClock )
+	//const fnObj = {cnt:0}
+	//const memFn = memoizeWith(
+	//	identity,
+	//	(id, a, b, cntObj ) =>{
+	//		console.log( a, b, cntObj, );
+	//	}
+	//)
 </script>
 <LMap/>
