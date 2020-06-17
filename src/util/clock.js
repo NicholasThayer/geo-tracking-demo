@@ -4,6 +4,9 @@ import {
   identity,
   curry,
   pipe,
+  merge,
+  keys,
+  reduce,
 } from 'ramda';
 
 const mem = fn => memoizeWith( identity, fn )
@@ -32,24 +35,51 @@ function clockTicker( clock ) {
   return () => onTick( clock );
 }
 
+function stopClock( clock ){
+  clock.started = false;
+  clock.stop = () => clock
+  clock.start = partial( startClock, [clock] )
 
+  return clock;
 
-function startClock( ticker ) {
-  setInterval( ticker, 0)
 }
 
+function startClock( clock ) {
+  clock.started = true;
+  clock.start = () => clock
+  const interval = setInterval( ticker( clock ), 0);
+  clock.stop = pipe(
+    () => clearInterval( interval ),
+     partial( stopClock, [ clock ]))
+
+  return clock;
+}
+
+function resetClock( original, current ){
+  current.stop()
+  return reduce(( cur, key ) => {
+    cur[key] = original[key]
+    return cur;
+  })
+}
+
+function createClock( clockOpts ) {
+  const clock = { ...clockOpts };
+  clock.start = partial( startClock, [clock])
+  clock.stop = partial( stopClock, [clock])
+  clock.reset = partial( resetClock, [ clockOpts, clock ])
+
+  return clock.reset()
+}
 
 function getClockFn( id, tickInterval, tickStep, tickOffset, tick, ts ) {
-  const clock = {
-    id, tickInterval, tickStep, tickOffset, tick, ts,
-    started: true,
-  }
-  const ticker = clockTicker( clock )
+  const clock = createClock({
+    id, tickInterval, tickStep, tickOffset, tick, ts
+  })
 
   setContext( id, clock);
 
-  return clock
-  //mem( partial( getContext, [id] ))
+  return clock;
 }
 
 export const getClock = mem( getClockFn )
