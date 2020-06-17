@@ -16,8 +16,10 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "config": "file:src/config",
     "leaflet": "^1.6.0",
     "ramda": "^0.27.0",
-    "sirv-cli": "^0.4.4"
+    "sirv-cli": "^0.4.4",
+    "util": "file:src/util"
   }
 }
