@@ -1,7 +1,15 @@
 import {
-  movementDataSchemaURI
-} from 'config'
+  mem
+} from 'util';
 
-function getMovementDataSchema(){
+import {
+  movementDataSchemaURI
+} from 'config';
+
+
+
+function getMovementDataSchemaFn(){
   return fetch( movementDataSchemaURI )
 }
+
+export const getMovementDataSchema = mem( getMovementDataSchemaFn )
